@@ -1,0 +1,293 @@
+﻿@page "/"
+@using JiuLing.CommonLibs.Security.Signature
+
+<PageTitle>Index</PageTitle>
+
+<div class="d-flex flex-grow-1 gap-4 mx-4 my-4">
+    <MudPaper Class="flex-grow-1 px-2" Elevation="0">
+        <MudTextField T="string"
+                      Label="请输入原始字符串"
+                      Variant="Variant.Text"
+                      Immediate="true"
+                      TextChanged="SourceTextChangedAsync" />
+
+        <MudPaper Width="100%" Class="mt-5" Elevation="0">
+            @foreach (var signItem in _signResult)
+            {
+                <div class="d-flex justify-space-between">
+                    <div class="detail my-3">
+                        <div class="operation">
+                            @($"{signItem.Seq}. {signItem.Operation}")
+                        </div>
+                        <div class="mt-1 result">
+                            @(signItem.Result)
+                        </div>
+                    </div>
+                    <div class="undo">
+                        @if (_signResult.Count > 1 && signItem.Equals(_signResult.Last()))
+                        {
+                            <MudTooltip Text="撤销">
+                                <MudIconButton Icon="@Icons.Material.Filled.Undo"
+                                               Size="Size.Medium"
+                                               Color="Color.Warning"
+                                               OnClick="UndoAsync"></MudIconButton>
+                            </MudTooltip>
+                        }
+                    </div>
+                </div>
+                <MudDivider />
+            }
+        </MudPaper>
+    </MudPaper>
+    <MudPaper Width="400px" MinWidth="400px" Class="flex-grow-0" Elevation="0">
+        <MudExpansionPanels MultiExpansion="true">
+            <MudExpansionPanel Text="工具" IsInitiallyExpanded="true">
+
+                <MudTooltip Text="参数字典序排序">
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Size="Size.Small"
+                               OnClick="OrderByAsync">
+                        字典序
+                    </MudButton>
+                </MudTooltip>
+
+                <MudTooltip Text="等号 %3d">
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Size="Size.Small"
+                               OnClick="UrlEncodeLowerAsync">
+                        Url 小写编码
+                    </MudButton>
+                </MudTooltip>
+
+                <MudTooltip Text="等号 %3D">
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Size="Size.Small"
+                               OnClick="UrlEncodeUpperAsync">
+                        Url 大写编码
+                    </MudButton>
+                </MudTooltip>
+
+                <MudButton Variant="Variant.Text"
+                           Color="Color.Primary"
+                           Size="Size.Small"
+                           OnClick="Base64Async">
+                    Base64
+                </MudButton>
+
+                <MudTooltip Text="整个字符串大写">
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Size="Size.Small"
+                               OnClick="ToUpperAsync">
+                        转大写
+                    </MudButton>
+                </MudTooltip>
+                <MudTooltip Text="整个字符串小写">
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Size="Size.Small"
+                               OnClick="ToLowerAsync">
+                        转小写
+                    </MudButton>
+                </MudTooltip>
+
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="提取参数" IsInitiallyExpanded="true">
+                <MudTextField @bind-Value="_separator"
+                              Label="请输入连接字符"
+                              Variant="Variant.Text"></MudTextField>
+
+                <MudTooltip Text="@("连接字符串为空:param1=1&param2=2 -> param11param22;不为空:param1=1&param2=2 -> param11连接字符串param22")">
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Size="Size.Small"
+                               OnClick="FetchParameterNameAndValueAsync">
+                        参数键值
+                    </MudButton>
+                </MudTooltip>
+                <MudTooltip Text="@("连接字符串为空:param1=1&param2=2 -> 12;不为空:param1=1&param2=2 -> 1连接字符串2")">
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Size="Size.Small"
+                               OnClick="FetchParameterValueAsync">
+                        参数值
+                    </MudButton>
+                </MudTooltip>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="拼接字符串" IsInitiallyExpanded="true">
+                <MudTextField @bind-Value="_fixString"
+                              Label="请输入字符串"
+                              Variant="Variant.Text"></MudTextField>
+                <MudTooltip Text="向现有字符串添加前缀">
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Size="Size.Small"
+                               OnClick="PrefixAsync">
+                        加前缀
+                    </MudButton>
+                </MudTooltip>
+                <MudTooltip Text="向现有字符串添加后缀">
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Size="Size.Small"
+                               OnClick="PostfixAsync">
+                        加后缀
+                    </MudButton>
+                </MudTooltip>
+            </MudExpansionPanel>
+            <MudExpansionPanel Text="哈希" IsInitiallyExpanded="true">
+                <MudButton Variant="Variant.Text"
+                           Color="Color.Primary"
+                           Size="Size.Small"
+                           OnClick="MD5Async">
+                    MD5
+                </MudButton>
+                <MudButton Variant="Variant.Text"
+                           Color="Color.Primary"
+                           Size="Size.Small"
+                           OnClick="SHA1Async">
+                    SHA1
+                </MudButton>
+                <MudButton Variant="Variant.Text"
+                           Color="Color.Primary"
+                           Size="Size.Small"
+                           OnClick="SHA256Async">
+                    SHA256
+                </MudButton>
+            </MudExpansionPanel>
+        </MudExpansionPanels>
+    </MudPaper>
+</div>
+
+@code {
+
+    private string _fixString = "";
+    private string _separator = "";
+    private readonly List<SignItem> _signResult = new List<SignItem>();
+
+    private async Task SourceTextChangedAsync(string value)
+    {
+        _signResult.Clear();
+        _signResult.Add(new SignItem(_signResult.Count + 1, "初始化", value));
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task UndoAsync()
+    {
+        if (_signResult.Count == 1)
+        {
+            _signResult.Clear();
+        }
+        else
+        {
+            _signResult.RemoveAt(_signResult.Count - 1);
+        }
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task OrderByAsync()
+    {
+        string value = _signResult.LastOrDefault()?.Result ?? "";
+        var result = SignatureBuilder.Create(value).OrderBy().GetResult();
+        _signResult.Add(new SignItem(_signResult.Count + 1, "字典序", result));
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task Base64Async()
+    {
+        string value = _signResult.LastOrDefault()?.Result ?? "";
+        var result = SignatureBuilder.Create(value).Base64().GetResult();
+        _signResult.Add(new SignItem(_signResult.Count + 1, "Base64", result));
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task PrefixAsync()
+    {
+        string value = _signResult.LastOrDefault()?.Result ?? "";
+        var result = SignatureBuilder.Create(value).Prefix(_fixString).GetResult();
+        _signResult.Add(new SignItem(_signResult.Count + 1, $"加前缀：{_fixString}", result));
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task PostfixAsync()
+    {
+        string value = _signResult.LastOrDefault()?.Result ?? "";
+        var result = SignatureBuilder.Create(value).Postfix(_fixString).GetResult();
+        _signResult.Add(new SignItem(_signResult.Count + 1, $"加后缀：{_fixString}", result));
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task MD5Async()
+    {
+        string value = _signResult.LastOrDefault()?.Result ?? "";
+        var result = SignatureBuilder.Create(value).MD5().GetResult();
+        _signResult.Add(new SignItem(_signResult.Count + 1, $"MD5", result));
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task SHA1Async()
+    {
+        string value = _signResult.LastOrDefault()?.Result ?? "";
+        var result = SignatureBuilder.Create(value).SHA1().GetResult();
+        _signResult.Add(new SignItem(_signResult.Count + 1, $"SHA1", result));
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task SHA256Async()
+    {
+        string value = _signResult.LastOrDefault()?.Result ?? "";
+        var result = SignatureBuilder.Create(value).SHA256().GetResult();
+        _signResult.Add(new SignItem(_signResult.Count + 1, $"SHA256", result));
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task ToUpperAsync()
+    {
+        string value = _signResult.LastOrDefault()?.Result ?? "";
+        var result = SignatureBuilder.Create(value).ToUpper().GetResult();
+        _signResult.Add(new SignItem(_signResult.Count + 1, $"转大写", result));
+        await InvokeAsync(StateHasChanged);
+    }
+    private async Task ToLowerAsync()
+    {
+        string value = _signResult.LastOrDefault()?.Result ?? "";
+        var result = SignatureBuilder.Create(value).ToLower().GetResult();
+        _signResult.Add(new SignItem(_signResult.Count + 1, $"转小写", result));
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task FetchParameterNameAndValueAsync()
+    {
+        string value = _signResult.LastOrDefault()?.Result ?? "";
+        var result = SignatureBuilder.Create(value).FetchParameterNameAndValue(_separator).GetResult();
+        _signResult.Add(new SignItem(_signResult.Count + 1, $"提取参数键值", result));
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task FetchParameterValueAsync()
+    {
+        string value = _signResult.LastOrDefault()?.Result ?? "";
+        var result = SignatureBuilder.Create(value).FetchParameterValue(_separator).GetResult();
+        _signResult.Add(new SignItem(_signResult.Count + 1, $"提取参数值", result));
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task UrlEncodeLowerAsync()
+    {
+        string value = _signResult.LastOrDefault()?.Result ?? "";
+        var result = SignatureBuilder.Create(value).UrlEncodeLower().GetResult();
+        _signResult.Add(new SignItem(_signResult.Count + 1, $"Url 小写编码", result));
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task UrlEncodeUpperAsync()
+    {
+        string value = _signResult.LastOrDefault()?.Result ?? "";
+        var result = SignatureBuilder.Create(value).UrlEncodeUpper().GetResult();
+        _signResult.Add(new SignItem(_signResult.Count + 1, $"Url 大写编码", result));
+        await InvokeAsync(StateHasChanged);
+    }
+}

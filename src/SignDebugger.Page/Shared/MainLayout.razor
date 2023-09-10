@@ -1,0 +1,119 @@
+﻿@using JiuLing.CommonLibs.ExtensionMethods
+@inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime;
+
+<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="1" Dense="true">
+        <MudText Typo="Typo.h5" Class="ml-3">
+            签名调试工具
+        </MudText>
+        <MudSpacer />
+        @if (_webSetting != null)
+        {
+            @if (_webSetting.AppThemeInt == 0)
+            {
+                <MudTooltip Text="浅色主题">
+                    <MudIconButton Icon="@Icons.Material.Filled.WbSunny"
+                                   Color="Color.Inherit"
+                                   Edge="Edge.End"
+                                   OnClick="ChangeTheme" />
+                </MudTooltip>
+            }
+            else if (_webSetting.AppThemeInt == 1)
+            {
+                <MudTooltip Text="深色主题">
+                    <MudIconButton Icon="@Icons.Material.Filled.DarkMode"
+                                   Color="Color.Inherit"
+                                   Edge="Edge.End"
+                                   OnClick="ChangeTheme" />
+                </MudTooltip>
+            }
+            else
+            {
+                <MudTooltip Text="使用系统主题">
+                    <MudIconButton Icon="@Icons.Material.Filled.AutoMode"
+                                   Color="Color.Inherit"
+                                   Edge="Edge.End"
+                                   OnClick="ChangeTheme" />
+                </MudTooltip>
+            }
+        }
+
+        <MudIconButton Icon="@Icons.Custom.Brands.GitHub"
+                       Color="Color.Inherit"
+                       Href="https://github.com/JiuLing-zhang/ListenTogether"
+                       Edge="Edge.End" />
+    </MudAppBar>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+@code {
+
+    private const string WebSettingsPath = "web-settings";
+    private WebSettings _webSetting = null!;
+    private bool _isDarkMode;
+    private MudThemeProvider _mudThemeProvider;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        if (File.Exists(WebSettingsPath))
+        {
+            var json = await File.ReadAllTextAsync(WebSettingsPath);
+            _webSetting = json.ToObject<WebSettings>();
+        }
+        else
+        {
+            _webSetting = new WebSettings();
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await SetTheme();
+        }
+    }
+
+    private async Task ChangeTheme()
+    {
+        if (_webSetting.AppThemeInt == 0)
+        {
+            _webSetting.AppThemeInt = 1;
+        }
+        else if (_webSetting.AppThemeInt == 1)
+        {
+            _webSetting.AppThemeInt = 2;
+        }
+        else
+        {
+            _webSetting.AppThemeInt = 0;
+        }
+        await File.WriteAllTextAsync(WebSettingsPath, _webSetting.ToJson());
+        await SetTheme();
+    }
+
+    private async Task SetTheme()
+    {
+        switch (_webSetting.AppThemeInt)
+        {
+            case 0:
+                _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+                break;
+            case 1:
+                _isDarkMode = false;
+                break;
+            case 2:
+                _isDarkMode = true;
+                break;
+        }
+        await InvokeAsync(StateHasChanged);
+    }
+}

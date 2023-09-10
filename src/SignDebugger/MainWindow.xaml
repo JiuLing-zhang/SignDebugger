@@ -1,0 +1,24 @@
+﻿<Window x:Class="SignDebugger.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SignDebugger"
+        xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation/blazor"
+        xmlns:page="clr-namespace:SignDebugger.Page;assembly=SignDebugger.Page"
+        mc:Ignorable="d"
+        WindowState="Normal"
+        WindowStartupLocation="CenterScreen"
+        Title=""         
+        Height="720"
+        Width="1200"
+        MinHeight="720"
+        MinWidth="1200">
+    <Grid>
+        <wpf:BlazorWebView HostPage="wwwroot\index.html" Services="{DynamicResource services}">
+            <wpf:BlazorWebView.RootComponents>
+                <wpf:RootComponent Selector="#app" ComponentType="{x:Type page:App}" />
+            </wpf:BlazorWebView.RootComponents>
+        </wpf:BlazorWebView>
+    </Grid>
+</Window>
