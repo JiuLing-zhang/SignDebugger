@@ -1,0 +1,90 @@
+﻿@using System.Reflection
+@using JiuLing.CommonLibs.ExtensionMethods
+@using JiuLing.CommonLibs.Model
+
+<MudText Typo="Typo.h5" Class="ml-1">
+    @(_currentVersion)
+</MudText>
+
+<MudButton Class="ml-3 mr-1"
+           Variant="Variant.Text"
+           Size="Size.Small"
+           Color="Color.Inherit"
+           Style="opacity:0.5;"
+           Disabled="@_isChecking"
+           OnClick="CheckUpdateAsync">检查更新</MudButton>
+
+@if (_isChecking)
+{
+    <MudProgressCircular Color="Color.Inherit"
+                         Size="Size.Small"
+                         Style="opacity:0.5;"
+                         Indeterminate="true" />
+}
+else
+{
+    if (_newVersion.IsEmpty())
+    {
+        <MudText Typo="Typo.overline"
+                 Style="opacity:0.5;">
+            @(_message)
+        </MudText>
+    }
+    else
+    {
+        <MudButton Class="ml-3 mr-1"
+                   Variant="Variant.Text"
+                   Size="Size.Small"
+                   Color="Color.Inherit"
+                   Href="@_newVersionUrl"
+                   Style="opacity:0.5;">@($"点击下载新版本:{_newVersion}")</MudButton>
+    }
+}
+@code {
+
+    private bool _isChecking = false;
+    private string _currentVersion = "";
+    private string _message = "";
+    private string _newVersion = "";
+    private string _newVersionUrl = "";
+    private HttpClient _httpClient = new HttpClient();
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _currentVersion = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion.ToString();
+    }
+
+    private async Task CheckUpdateAsync()
+    {
+        _newVersion = "";
+        _newVersionUrl = "";
+        _message = "";
+        _isChecking = true;
+        await InvokeAsync(StateHasChanged);
+
+        try
+        {
+            var json = await _httpClient.GetStringAsync("http://api.jiuling.cc/app/check-update/d1te99378038a524cd95a4078886a1eb/windows");
+            var obj = json.ToObject<AppUpgradeInfo>();
+            var isNewVersion = JiuLing.CommonLibs.VersionUtils.CheckNeedUpdate(_currentVersion, obj.Version);
+            if (!isNewVersion)
+            {
+                _message = "当前版本为最新版本";
+            }
+            else
+            {
+                _newVersion = obj.Version;
+                _newVersionUrl = obj.DownloadUrl;
+            }
+        }
+        catch (Exception e)
+        {
+            _message = "无法连接到服务器";
+        }
+        finally
+        {
+            _isChecking = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

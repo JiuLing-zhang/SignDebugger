@@ -11,6 +11,8 @@
         <MudText Typo="Typo.h5" Class="ml-3">
             签名调试工具
         </MudText>
+        <AutoUpdate />
+
         <MudSpacer />
         @if (_webSetting != null)
         {
@@ -56,22 +58,26 @@
 @code {
 
     private const string WebSettingsPath = "web-settings";
-    private WebSettings _webSetting = null!;
+    private WebSettings _webSetting;
     private bool _isDarkMode;
     private MudThemeProvider _mudThemeProvider;
 
-    protected override async Task OnInitializedAsync()
+    public MainLayout()
     {
-        await base.OnInitializedAsync();
         if (File.Exists(WebSettingsPath))
         {
-            var json = await File.ReadAllTextAsync(WebSettingsPath);
+            var json = File.ReadAllText(WebSettingsPath);
             _webSetting = json.ToObject<WebSettings>();
         }
         else
         {
             _webSetting = new WebSettings();
         }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
