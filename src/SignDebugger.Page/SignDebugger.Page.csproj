@@ -11,10 +11,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="JiuLing.CommonLibs" Version="1.6.2" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.10" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.10" PrivateAssets="all" />
-		<PackageReference Include="MudBlazor" Version="6.9.0" />
+		<PackageReference Include="JiuLing.CommonLibs" Version="1.6.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.11" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.11" PrivateAssets="all" />
+		<PackageReference Include="MudBlazor" Version="6.10.0" />
 	</ItemGroup>
 
 </Project>

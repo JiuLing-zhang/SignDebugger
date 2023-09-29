@@ -1,5 +1,7 @@
 ﻿@page "/"
+@using JiuLing.CommonLibs.ExtensionMethods;
 @using JiuLing.CommonLibs.Security.Signature
+@using SignDebugger.Page.CommandManage;
 
 <PageTitle>Index</PageTitle>
 
@@ -12,7 +14,8 @@
                       TextChanged="SourceTextChangedAsync" />
 
         <MudPaper Width="100%" Class="mt-5" Elevation="0">
-            @foreach (var signItem in _signResult)
+
+            @foreach (var signItem in _signHistory)
             {
                 <div class="d-flex justify-space-between">
                     <div class="detail my-3">
@@ -24,7 +27,7 @@
                         </div>
                     </div>
                     <div class="undo">
-                        @if (_signResult.Count > 1 && signItem.Equals(_signResult.Last()))
+                        @if (signItem.Equals(_signHistory.Last()))
                         {
                             <MudTooltip Text="撤销">
                                 <MudIconButton Icon="@Icons.Material.Filled.Undo"
@@ -166,128 +169,103 @@
 
     private string _fixString = "";
     private string _separator = "";
-    private readonly List<SignItem> _signResult = new List<SignItem>();
-
+    private string _signSource = "";
+    private string _signValue = "";
+    private List<SignItem> _signHistory = new List<SignItem>();
+    private CommandExecutor _executor;
     private async Task SourceTextChangedAsync(string value)
     {
-        _signResult.Clear();
-        _signResult.Add(new SignItem(_signResult.Count + 1, "初始化", value));
+        _signSource = value;
+        _signValue = value;
+        _signHistory.Clear();
+        _executor = new CommandExecutor();
         await InvokeAsync(StateHasChanged);
     }
 
     private async Task UndoAsync()
     {
-        if (_signResult.Count == 1)
+        _executor.Undo();
+        await RefreshContextAsync();
+        if (_signValue.IsEmpty())
         {
-            _signResult.Clear();
+            _signValue = _signSource;
         }
-        else
-        {
-            _signResult.RemoveAt(_signResult.Count - 1);
-        }
-        await InvokeAsync(StateHasChanged);
     }
 
     private async Task OrderByAsync()
     {
-        string value = _signResult.LastOrDefault()?.Result ?? "";
-        var result = SignatureBuilder.Create(value).OrderBy().GetResult();
-        _signResult.Add(new SignItem(_signResult.Count + 1, "字典序", result));
-        await InvokeAsync(StateHasChanged);
+        await DoCommandAsync(new OrderByCommand(_signValue));
     }
 
     private async Task Base64Async()
     {
-        string value = _signResult.LastOrDefault()?.Result ?? "";
-        var result = SignatureBuilder.Create(value).Base64().GetResult();
-        _signResult.Add(new SignItem(_signResult.Count + 1, "Base64", result));
-        await InvokeAsync(StateHasChanged);
+        await DoCommandAsync(new Base64Command(_signValue));
     }
 
     private async Task PrefixAsync()
     {
-        string value = _signResult.LastOrDefault()?.Result ?? "";
-        var result = SignatureBuilder.Create(value).Prefix(_fixString).GetResult();
-        _signResult.Add(new SignItem(_signResult.Count + 1, $"加前缀：{_fixString}", result));
-        await InvokeAsync(StateHasChanged);
+        await DoCommandAsync(new PrefixCommand(_signValue, _fixString));
     }
 
     private async Task PostfixAsync()
     {
-        string value = _signResult.LastOrDefault()?.Result ?? "";
-        var result = SignatureBuilder.Create(value).Postfix(_fixString).GetResult();
-        _signResult.Add(new SignItem(_signResult.Count + 1, $"加后缀：{_fixString}", result));
-        await InvokeAsync(StateHasChanged);
+        await DoCommandAsync(new PostfixCommand(_signValue, _fixString));
     }
 
     private async Task MD5Async()
     {
-        string value = _signResult.LastOrDefault()?.Result ?? "";
-        var result = SignatureBuilder.Create(value).MD5().GetResult();
-        _signResult.Add(new SignItem(_signResult.Count + 1, $"MD5", result));
-        await InvokeAsync(StateHasChanged);
+        await DoCommandAsync(new MD5Command(_signValue));
     }
 
     private async Task SHA1Async()
     {
-        string value = _signResult.LastOrDefault()?.Result ?? "";
-        var result = SignatureBuilder.Create(value).SHA1().GetResult();
-        _signResult.Add(new SignItem(_signResult.Count + 1, $"SHA1", result));
-        await InvokeAsync(StateHasChanged);
+        await DoCommandAsync(new SHA1Command(_signValue));
     }
 
     private async Task SHA256Async()
     {
-        string value = _signResult.LastOrDefault()?.Result ?? "";
-        var result = SignatureBuilder.Create(value).SHA256().GetResult();
-        _signResult.Add(new SignItem(_signResult.Count + 1, $"SHA256", result));
-        await InvokeAsync(StateHasChanged);
+        await DoCommandAsync(new SHA256Command(_signValue));
     }
 
     private async Task ToUpperAsync()
     {
-        string value = _signResult.LastOrDefault()?.Result ?? "";
-        var result = SignatureBuilder.Create(value).ToUpper().GetResult();
-        _signResult.Add(new SignItem(_signResult.Count + 1, $"转大写", result));
-        await InvokeAsync(StateHasChanged);
+        await DoCommandAsync(new ToUpperCommand(_signValue));
     }
     private async Task ToLowerAsync()
     {
-        string value = _signResult.LastOrDefault()?.Result ?? "";
-        var result = SignatureBuilder.Create(value).ToLower().GetResult();
-        _signResult.Add(new SignItem(_signResult.Count + 1, $"转小写", result));
-        await InvokeAsync(StateHasChanged);
+        await DoCommandAsync(new ToLowerCommand(_signValue));
     }
 
     private async Task FetchParameterNameAndValueAsync()
     {
-        string value = _signResult.LastOrDefault()?.Result ?? "";
-        var result = SignatureBuilder.Create(value).FetchParameterNameAndValue(_separator).GetResult();
-        _signResult.Add(new SignItem(_signResult.Count + 1, $"提取参数键值", result));
-        await InvokeAsync(StateHasChanged);
+        await DoCommandAsync(new FetchParameterNameAndValueCommand(_signValue, _separator));
     }
 
     private async Task FetchParameterValueAsync()
     {
-        string value = _signResult.LastOrDefault()?.Result ?? "";
-        var result = SignatureBuilder.Create(value).FetchParameterValue(_separator).GetResult();
-        _signResult.Add(new SignItem(_signResult.Count + 1, $"提取参数值", result));
-        await InvokeAsync(StateHasChanged);
+        await DoCommandAsync(new FetchParameterValueCommand(_signValue, _separator));
     }
 
     private async Task UrlEncodeLowerAsync()
     {
-        string value = _signResult.LastOrDefault()?.Result ?? "";
-        var result = SignatureBuilder.Create(value).UrlEncodeLower().GetResult();
-        _signResult.Add(new SignItem(_signResult.Count + 1, $"Url 小写编码", result));
-        await InvokeAsync(StateHasChanged);
+        await DoCommandAsync(new UrlEncodeLowerCommand(_signValue));
     }
 
     private async Task UrlEncodeUpperAsync()
     {
-        string value = _signResult.LastOrDefault()?.Result ?? "";
-        var result = SignatureBuilder.Create(value).UrlEncodeUpper().GetResult();
-        _signResult.Add(new SignItem(_signResult.Count + 1, $"Url 大写编码", result));
+        await DoCommandAsync(new UrlEncodeUpperCommand(_signValue));
+    }
+
+    private async Task DoCommandAsync(ICommand command)
+    {
+        _executor.Execute(command);
+        await RefreshContextAsync();
+    }
+
+    private async Task RefreshContextAsync()
+    {
+        _signValue = _executor.GetResult();
+        _signHistory = _executor.GetHistory();
         await InvokeAsync(StateHasChanged);
     }
 }
