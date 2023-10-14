@@ -97,6 +97,15 @@
                     </MudButton>
                 </MudTooltip>
 
+                <MudTooltip Text="将 Json 类型的参数提取为表单格式">
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Size="Size.Small"
+                               OnClick="JsonToFormAsync">
+                        Json 提取
+                    </MudButton>
+                </MudTooltip>
+
             </MudExpansionPanel>
             <MudExpansionPanel Text="提取参数" IsInitiallyExpanded="true">
                 <MudTextField @bind-Value="_separator"
@@ -234,6 +243,11 @@
     private async Task ToLowerAsync()
     {
         await DoCommandAsync(new ToLowerCommand(_signValue));
+    }
+
+    private async Task JsonToFormAsync()
+    {
+        await DoCommandAsync(new JsonToFormCommand(_signValue));
     }
 
     private async Task FetchParameterNameAndValueAsync()
