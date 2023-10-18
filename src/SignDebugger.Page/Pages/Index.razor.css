@@ -1,17 +1,18 @@
 .detail {
 }
 
-.operation {
-    opacity: 0.7;
+.operation { 
     font-size: 13px;
     word-break: break-all;
 }
 
 .result {
+    opacity: 0.5;
     font-size: 13px;
     word-break: break-all;
 }
 
 .undo {
+    opacity: 0.8;
     margin-left: 20px;
 }

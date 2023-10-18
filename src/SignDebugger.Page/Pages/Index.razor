@@ -108,47 +108,55 @@
 
             </MudExpansionPanel>
             <MudExpansionPanel Text="提取参数" IsInitiallyExpanded="true">
-                <MudTextField @bind-Value="_separator"
-                              Label="请输入连接字符"
-                              Variant="Variant.Text"></MudTextField>
+                <div class="d-flex justify-space-between align-end">
+                    <MudTextField @bind-Value="_separator"
+                                  Label="请输入连接字符"
+                                  Variant="Variant.Text"></MudTextField>
 
-                <MudTooltip Text="@("连接字符串为空:param1=1&param2=2 -> param11param22;不为空:param1=1&param2=2 -> param11连接字符串param22")">
-                    <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Size="Size.Small"
-                               OnClick="FetchParameterNameAndValueAsync">
-                        参数键值
-                    </MudButton>
-                </MudTooltip>
-                <MudTooltip Text="@("连接字符串为空:param1=1&param2=2 -> 12;不为空:param1=1&param2=2 -> 1连接字符串2")">
-                    <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Size="Size.Small"
-                               OnClick="FetchParameterValueAsync">
-                        参数值
-                    </MudButton>
-                </MudTooltip>
+                    <div>
+                        <MudTooltip Text="@("连接字符串为空:param1=1&param2=2 -> param11param22;不为空:param1=1&param2=2 -> param11连接字符串param22")">
+                            <MudButton Variant="Variant.Text"
+                                       Color="Color.Primary"
+                                       Size="Size.Small"
+                                       OnClick="FetchParameterNameAndValueAsync">
+                                参数键值
+                            </MudButton>
+                        </MudTooltip>
+                        <MudTooltip Text="@("连接字符串为空:param1=1&param2=2 -> 12;不为空:param1=1&param2=2 -> 1连接字符串2")">
+                            <MudButton Variant="Variant.Text"
+                                       Color="Color.Primary"
+                                       Size="Size.Small"
+                                       OnClick="FetchParameterValueAsync">
+                                参数值
+                            </MudButton>
+                        </MudTooltip>
+                    </div>
+                </div>
             </MudExpansionPanel>
             <MudExpansionPanel Text="拼接字符串" IsInitiallyExpanded="true">
-                <MudTextField @bind-Value="_fixString"
-                              Label="请输入字符串"
-                              Variant="Variant.Text"></MudTextField>
-                <MudTooltip Text="向现有字符串添加前缀">
-                    <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Size="Size.Small"
-                               OnClick="PrefixAsync">
-                        加前缀
-                    </MudButton>
-                </MudTooltip>
-                <MudTooltip Text="向现有字符串添加后缀">
-                    <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Size="Size.Small"
-                               OnClick="PostfixAsync">
-                        加后缀
-                    </MudButton>
-                </MudTooltip>
+                <div class="d-flex justify-space-between align-end">
+                    <MudTextField @bind-Value="_fixString"
+                                  Label="请输入字符串"
+                                  Variant="Variant.Text"></MudTextField>
+                    <div>
+                        <MudTooltip Text="向现有字符串添加前缀">
+                            <MudButton Variant="Variant.Text"
+                                       Color="Color.Primary"
+                                       Size="Size.Small"
+                                       OnClick="PrefixAsync">
+                                加前缀
+                            </MudButton>
+                        </MudTooltip>
+                        <MudTooltip Text="向现有字符串添加后缀">
+                            <MudButton Variant="Variant.Text"
+                                       Color="Color.Primary"
+                                       Size="Size.Small"
+                                       OnClick="PostfixAsync">
+                                加后缀
+                            </MudButton>
+                        </MudTooltip>
+                    </div>
+                </div>
             </MudExpansionPanel>
             <MudExpansionPanel Text="哈希" IsInitiallyExpanded="true">
                 <MudButton Variant="Variant.Text"
@@ -181,7 +189,7 @@
     private string _signSource = "";
     private string _signValue = "";
     private List<SignItem> _signHistory = new List<SignItem>();
-    private CommandExecutor _executor;
+    private CommandExecutor _executor = new CommandExecutor();
     private async Task SourceTextChangedAsync(string value)
     {
         _signSource = value;
