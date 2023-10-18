@@ -2,7 +2,7 @@
 @inherits LayoutComponentBase
 @inject IJSRuntime JSRuntime;
 
-<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" />
+<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" Theme="_customTheme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
@@ -61,6 +61,7 @@
     private WebSettings _webSetting;
     private bool _isDarkMode;
     private MudThemeProvider _mudThemeProvider;
+    private MudTheme _customTheme;
 
     public MainLayout()
     {
@@ -78,6 +79,34 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        _customTheme = new MudTheme()
+            {
+                Palette = new PaletteLight()
+                {
+                    Primary = "#6EA1EF",
+                    Secondary = Colors.Green.Accent4,
+                    AppbarBackground = "#F5F5F5",
+                    AppbarText = "#6EA1EF",
+                    TableStriped = "#F5F5F5",
+                    TableHover = "#F1F6FD",
+                    DarkLighten = "#CACDD1"
+
+                },
+                PaletteDark = new PaletteDark()
+                {
+                    Primary = "#6EA1EF",
+                    AppbarBackground = "#444444",
+                    AppbarText = "#6EA1EF",
+                    Background = "#333333",
+                    Surface = "#333333",
+                    TableStriped = "#292929",
+                    TableHover = "#182437",
+                    DarkLighten = "#494C50",
+                    Black = "#858585",
+                    TextPrimary = "#FFFFFF",
+                    OverlayDark = "#7575757A"
+                }
+            };
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
