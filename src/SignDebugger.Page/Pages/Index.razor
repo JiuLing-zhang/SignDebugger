@@ -2,6 +2,8 @@
 @using JiuLing.CommonLibs.ExtensionMethods;
 @using JiuLing.CommonLibs.Security.Signature
 @using SignDebugger.Page.CommandManage;
+@using System.Collections.Specialized;
+@using System.Web;
 
 <PageTitle>Index</PageTitle>
 
@@ -41,11 +43,20 @@
                 <MudDivider />
             }
         </MudPaper>
+
     </MudPaper>
     <MudPaper Width="400px" MinWidth="400px" Class="flex-grow-0" Elevation="0">
         <MudExpansionPanels MultiExpansion="true">
             <MudExpansionPanel Text="工具" IsInitiallyExpanded="true">
 
+                <MudTooltip Text="删除指定参数">
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Size="Size.Small"
+                               OnClick="OpenDeleteParams">
+                        参数项
+                    </MudButton>
+                </MudTooltip>
                 <MudTooltip Text="参数字典序排序">
                     <MudButton Variant="Variant.Text"
                                Color="Color.Primary"
@@ -191,8 +202,38 @@
     </MudPaper>
 </div>
 
+<MudDrawer @bind-Open="@_isOpenDeleteParams"
+           Anchor="Anchor.End"
+           Width="400px"
+           Elevation="1"
+           Variant="@DrawerVariant.Temporary">
+    <MudDrawerHeader>
+        <MudText Typo="Typo.h6">删除参数</MudText>
+    </MudDrawerHeader>
+    @if (!_parameterNames.Any())
+    {
+        <MudText Align="Align.Center">没有可用参数</MudText>
+    }
+    else
+    {
+        <div class="px-2">
+            @foreach (var key in _parameterNames)
+            {
+                <MudChip Color="Color.Default"
+                         Label="true"
+                         Text="@(key)"
+                         OnClose="RemoveKeyAsync">
+                    @(key)
+                </MudChip>
+            }
+        </div>
+    }
+</MudDrawer>
+
 @code {
 
+    private bool _isOpenDeleteParams;
+    private List<string> _parameterNames = new List<string>();
     private string _fixString = "";
     private string _separator = "";
     private string _signSource = "";
@@ -217,7 +258,24 @@
             _signValue = _signSource;
         }
     }
-
+    private async Task RemoveKeyAsync(MudChip chip)
+    {
+        var key = chip.Text;
+        _parameterNames.Remove(key);
+        await DoCommandAsync(new RemoveParameterCommand(_signValue, key));
+    }
+    private void OpenDeleteParams()
+    {
+        _parameterNames = new List<string>();
+        foreach (var key in HttpUtility.ParseQueryString(_signValue).AllKeys)
+        {
+            if (key != null)
+            {
+                _parameterNames.Add(key.ToString());
+            }
+        }
+        _isOpenDeleteParams = true;
+    }
     private async Task OrderByAsync()
     {
         await DoCommandAsync(new OrderByCommand(_signValue));
