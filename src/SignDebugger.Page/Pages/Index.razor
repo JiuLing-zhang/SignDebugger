@@ -73,6 +73,15 @@
                     </MudButton>
                 </MudTooltip>
 
+                <MudTooltip Text="%3d/%3D -> 等号">
+                    <MudButton Variant="Variant.Text"
+                               Color="Color.Primary"
+                               Size="Size.Small"
+                               OnClick="UrlDecodeAsync">
+                        Url 解码
+                    </MudButton>
+                </MudTooltip>
+
                 <MudButton Variant="Variant.Text"
                            Color="Color.Primary"
                            Size="Size.Small"
@@ -278,6 +287,10 @@
         await DoCommandAsync(new UrlEncodeUpperCommand(_signValue));
     }
 
+    private async Task UrlDecodeAsync()
+    {
+        await DoCommandAsync(new UrlDecodeCommand(_signValue));
+    }
     private async Task DoCommandAsync(ICommand command)
     {
         _executor.Execute(command);
