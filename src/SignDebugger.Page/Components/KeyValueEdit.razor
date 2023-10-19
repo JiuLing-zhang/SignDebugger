@@ -1,0 +1,38 @@
+﻿<div class="d-flex align-end">
+    <MudTextField Class="px-2 flex-grow-1" Value="@Item.Key" T="string" Immediate="true" ValueChanged="OnKeyChanged"></MudTextField>
+    <MudTextField Class="px-2 flex-grow-1" Value="@Item.Value" T="string" Immediate="true" ValueChanged="OnValueChanged"></MudTextField>
+    <div class="flex-grow-0" style="width:24px;">
+        <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="@(()=>OnItemRemoved(Item))"></MudIconButton>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    public KeyValueItem Item { get; set; } = default!;
+    [Parameter]
+    public EventCallback<string> ItemChanged { get; set; }
+    [Parameter]
+    public EventCallback<KeyValueItem> ItemRemoved { get; set; }
+
+    private async Task OnKeyChanged(string newValue)
+    {
+        if (Item.Key != newValue)
+        {
+            Item.Key = newValue;
+            await ItemChanged.InvokeAsync(newValue);
+        }
+    }
+    private async Task OnValueChanged(string newValue)
+    {
+        if (Item.Value != newValue)
+        {
+            Item.Value = newValue;
+            await ItemChanged.InvokeAsync(newValue);
+        }
+    }
+
+    private async Task OnItemRemoved(KeyValueItem item)
+    {
+        await ItemRemoved.InvokeAsync(item);
+    }
+}

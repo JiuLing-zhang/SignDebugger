@@ -1,0 +1,79 @@
+﻿@using JiuLing.CommonLibs.ExtensionMethods
+<div class="px-2">
+    @if (!Items.Any())
+    {
+        <MudText Align="Align.Center">没有可用参数</MudText>
+    }
+    else
+    {
+        <MudText Typo="Typo.overline">参数结果</MudText>
+        <div style="opacity: 0.8;">
+            @(_parametersString)
+        </div>
+
+        <div class="mt-2 mb-2">
+            <div class="d-flex align-end">
+                <MudTextField Class="px-2 flex-grow-1" Value="@("Key")" Disabled="true"></MudTextField>
+                <MudTextField Class="px-2 flex-grow-1" Value="@("Value")" Disabled="true"></MudTextField>
+                <div class="flex-grow-0" style="width:24px;">
+                </div>
+            </div>
+
+            @foreach (var item in Items)
+            {
+                <CascadingValue Value="item">
+                    <KeyValueEdit ItemChanged="OnItemChanged" ItemRemoved="OnItemRemoved" />
+                </CascadingValue>
+            }
+        </div>
+
+        <MudButton Variant="Variant.Text"
+                   StartIcon="@Icons.Material.Filled.Add"
+                   Size="Size.Small"
+                   OnClick="OnAddClicked"
+                   Style="text-transform:none">
+            添加参数
+        </MudButton>
+    }
+</div>
+
+@code {
+    private string _parametersString = "";
+
+    [Parameter]
+    public List<KeyValueItem> Items { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback ParametersChanged { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        await RefreshParametersAsync();
+    }
+
+    private async Task OnItemRemoved(KeyValueItem item)
+    {
+        Items.Remove(item);
+        await ParametersChanged.InvokeAsync();
+        await RefreshParametersAsync();
+    }
+
+    private async Task OnAddClicked()
+    {
+        Items.Add(new KeyValueItem());
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public async Task OnItemChanged()
+    {
+        await ParametersChanged.InvokeAsync();
+        await RefreshParametersAsync();
+    }
+
+    private async Task RefreshParametersAsync()
+    {
+        _parametersString = string.Join('&', Items.Where(x => x.Key.Trim().IsNotEmpty()).Select(x => $"{x.Key}={x.Value}").ToArray());
+        await InvokeAsync(StateHasChanged);
+    }
+}
