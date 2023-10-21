@@ -1,10 +1,10 @@
 ﻿@page "/"
 @using JiuLing.CommonLibs.ExtensionMethods;
-@using JiuLing.CommonLibs.Security.Signature
 @using SignDebugger.Page.CommandManage;
 @using System.Collections.Specialized;
-@using System.Web;
 @using SignDebugger.Page.Components
+@inject IJSRuntime JSRuntime;
+@inject ISnackbar Snackbar
 
 <PageTitle>Index</PageTitle>
 
@@ -27,6 +27,12 @@
                         </div>
                         <div class="mt-1 result">
                             @(signItem.Result)
+                            <MudTooltip Text="复制" Class="ml-2">
+                                <MudIconButton Icon="@Icons.Material.Filled.ContentCopy"
+                                               Size="Size.Small"
+                                               Color="Color.Inherit"
+                                               OnClick="@(()=>CopyResultAsync(signItem.Result))"></MudIconButton>
+                            </MudTooltip>
                         </div>
                     </div>
                     <div class="undo">
@@ -373,5 +379,11 @@
         _signValue = _executor.GetResult();
         _signHistory = _executor.GetHistory();
         await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task CopyResultAsync(string text)
+    {
+        await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", text);
+        Snackbar.Add("内容已复制", Severity.Success);
     }
 }
