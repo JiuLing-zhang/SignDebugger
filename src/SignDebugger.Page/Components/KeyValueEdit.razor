@@ -1,8 +1,14 @@
 ﻿<div class="d-flex align-end">
-    <MudTextField Class="px-2 flex-grow-1" Value="@Item.Key" T="string" Immediate="true" ValueChanged="OnKeyChanged"></MudTextField>
-    <MudTextField Class="px-2 flex-grow-1" Value="@Item.Value" T="string" Immediate="true" ValueChanged="OnValueChanged"></MudTextField>
+    <MudTooltip Text="@Item.Key">
+        <MudTextField Class="px-2 flex-grow-1" Value="@Item.Key" T="string" Immediate="true" ValueChanged="OnKeyChanged"></MudTextField>
+    </MudTooltip>
+    <MudTooltip Text="@Item.Value">
+        <MudTextField Class="px-2 flex-grow-1" Value="@Item.Value" T="string" Immediate="true" ValueChanged="OnValueChanged"></MudTextField>
+    </MudTooltip>
     <div class="flex-grow-0" style="width:24px;">
-        <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="@(()=>OnItemRemoved(Item))"></MudIconButton>
+        <MudTooltip Text="删除">
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="@(()=>OnItemRemoved(Item))"></MudIconButton>
+        </MudTooltip>
     </div>
 </div>
 

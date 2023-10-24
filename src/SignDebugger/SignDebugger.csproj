@@ -7,7 +7,7 @@
 		<UseWPF>true</UseWPF>
 		<RootNamespace>SignDebugger</RootNamespace>
 		<ApplicationIcon>icon.ico</ApplicationIcon>
-		<Version>1.1.2</Version>
+		<Version>1.1.3</Version>
 	</PropertyGroup>
 
 	<ItemGroup>

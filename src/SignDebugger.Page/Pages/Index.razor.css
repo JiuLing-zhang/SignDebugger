@@ -6,6 +6,10 @@
     word-break: break-all;
 }
 
+::deep .debug-step {
+    height: calc(100vh - 160px);
+}
+
 .result {
     opacity: 0.5;
     font-size: 13px;

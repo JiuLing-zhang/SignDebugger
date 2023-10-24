@@ -16,7 +16,7 @@
                       Immediate="true"
                       TextChanged="SourceTextChangedAsync" />
 
-        <MudPaper Width="100%" Class="mt-5" Elevation="0">
+        <MudPaper Width="100%" Class="mt-5 overflow-y-scroll debug-step" Elevation="0">
 
             @foreach (var signItem in _signHistory)
             {
@@ -230,6 +230,17 @@
     <ParametersEdit Items="_parameters" ParametersChanged="OnParametersChanged" />
 </MudDrawer>
 
+<script>
+    window.ScrollToDebugBottom = () => {
+        let debugStepArray = document.getElementsByClassName("debug-step");
+        if (debugStepArray.length == 0) {
+            return;
+        }
+        let debugStep = debugStepArray[0];
+        debugStep.scrollTop = debugStep.scrollHeight;
+    };
+</script>
+
 @code {
     private bool _isOpenParametersEdit;
     private bool _isParametersChanged;
@@ -379,11 +390,18 @@
         _signValue = _executor.GetResult();
         _signHistory = _executor.GetHistory();
         await InvokeAsync(StateHasChanged);
+        await Task.Delay(100);
+        await ScrollToDebugBottomAsync();
     }
 
     private async Task CopyResultAsync(string text)
     {
         await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", text);
         Snackbar.Add("内容已复制", Severity.Success);
+    }
+
+    private async Task ScrollToDebugBottomAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("ScrollToDebugBottom");
     }
 }
