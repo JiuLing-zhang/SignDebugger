@@ -1,17 +1,24 @@
 ﻿@using JiuLing.CommonLibs.ExtensionMethods
+@using SignDebugger.Page.Components
 @inherits LayoutComponentBase
-@inject IJSRuntime JSRuntime;
+@inject IWindowMoving WindowMoving;
+@inject IDialogService DialogService
+
+<style>
+    .mud-appbar .mud-toolbar-gutters {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+</style>
 
 <MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" Theme="_customTheme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Elevation="1" Dense="true">
-        <MudText Typo="Typo.h5" Class="ml-3">
-            签名调试工具
-        </MudText>
-        <AutoUpdate />
+    <MudAppBar Class="px-0" Elevation="25" Dense="true" @onmouseup="MouseUp" @onmousedown="MouseDown">
+
+        <span style="font-size: 15px;cursor: default;">签名调试工具</span>
 
         <MudSpacer />
         @if (_webSetting != null)
@@ -20,7 +27,7 @@
             {
                 <MudTooltip Text="浅色主题">
                     <MudIconButton Icon="@Icons.Material.Filled.WbSunny"
-                                   Color="Color.Inherit"
+                                   Size="Size.Small"
                                    Edge="Edge.End"
                                    OnClick="ChangeTheme" />
                 </MudTooltip>
@@ -29,7 +36,7 @@
             {
                 <MudTooltip Text="深色主题">
                     <MudIconButton Icon="@Icons.Material.Filled.DarkMode"
-                                   Color="Color.Inherit"
+                                   Size="Size.Small"
                                    Edge="Edge.End"
                                    OnClick="ChangeTheme" />
                 </MudTooltip>
@@ -38,17 +45,19 @@
             {
                 <MudTooltip Text="使用系统主题">
                     <MudIconButton Icon="@Icons.Material.Filled.AutoMode"
-                                   Color="Color.Inherit"
+                                   Size="Size.Small"
                                    Edge="Edge.End"
                                    OnClick="ChangeTheme" />
                 </MudTooltip>
             }
         }
-
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub"
-                       Color="Color.Inherit"
-                       Href="https://github.com/JiuLing-zhang/SignDebugger"
-                       Edge="Edge.End" />
+        <MudTooltip Text="设置">
+            <MudIconButton Icon="@Icons.Material.Filled.Settings"
+                           Class="ml-2"
+                           Size="Size.Small"
+                           OnClick="OpenSettingsDialog" />
+        </MudTooltip>
+        <TitleBar Class="ml-3" />
     </MudAppBar>
     <MudMainContent>
         @Body
@@ -150,5 +159,20 @@
                 break;
         }
         await InvokeAsync(StateHasChanged);
+    }
+
+    private void MouseDown(MouseEventArgs e)
+    {
+        WindowMoving.MouseDown();
+    }
+
+    private void MouseUp()
+    {
+        WindowMoving.MouseUp();
+    }
+
+    private void OpenSettingsDialog()
+    {
+        DialogService.Show<Settings>("签名调试工具", new DialogOptions() { NoHeader = true });
     }
 }

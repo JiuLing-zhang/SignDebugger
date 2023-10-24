@@ -2,11 +2,11 @@
 <div class="px-2 d-flex flex-column overflow-hidden">
     @if (!Items.Any())
     {
-        <MudText Align="Align.Center">没有可用参数</MudText>
+        <MudText Align="Align.Center" Class="cursor-default">没有可用参数</MudText>
     }
     else
     {
-        <MudText Typo="Typo.overline">参数结果</MudText>
+        <MudText Typo="Typo.overline" Class="cursor-default">参数结果</MudText>
         <div style="font-size: 13px;word-break: break-all;">
             @(_parametersString)
         </div>

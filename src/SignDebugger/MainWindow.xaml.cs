@@ -2,6 +2,7 @@
 using MudBlazor;
 using MudBlazor.Services;
 using System.Windows;
+using SignDebugger.Page;
 
 namespace SignDebugger
 {
@@ -15,6 +16,8 @@ namespace SignDebugger
             InitializeComponent();
 
             var serviceCollection = new ServiceCollection();
+            serviceCollection.AddSingleton<IWindowMoving, WindowMoving>();
+            serviceCollection.AddSingleton<IWindowTitleBar, WindowTitleBar>();
             serviceCollection.AddWpfBlazorWebView();
             serviceCollection.AddBlazorWebViewDeveloperTools();
             serviceCollection.AddMudServices(config =>

@@ -6,14 +6,19 @@
         xmlns:local="clr-namespace:SignDebugger"
         xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation/blazor"
         xmlns:page="clr-namespace:SignDebugger.Page;assembly=SignDebugger.Page"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
         mc:Ignorable="d"
         WindowState="Normal"
         WindowStartupLocation="CenterScreen"
-        Title="签名调试工具"         
+        Title="签名调试工具"
         Height="720"
         Width="1200"
         MinHeight="720"
-        MinWidth="1200">
+        MinWidth="1200"
+        ui:TitleBar.ExtendViewIntoTitleBar="True"
+        ui:TitleBar.IsBackButtonVisible="False"
+        ui:TitleBar.Style="{DynamicResource AppTitleBarStyle}"
+        ui:WindowHelper.UseModernWindowStyle="True">
     <Grid>
         <wpf:BlazorWebView HostPage="wwwroot\index.html" Services="{DynamicResource services}">
             <wpf:BlazorWebView.RootComponents>

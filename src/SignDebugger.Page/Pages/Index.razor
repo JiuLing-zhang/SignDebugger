@@ -22,7 +22,7 @@
             {
                 <div class="d-flex justify-space-between">
                     <div class="detail my-3">
-                        <div class="operation">
+                        <div class="operation cursor-default">
                             @($"{signItem.Seq}. {signItem.Operation}")
                         </div>
                         <div class="mt-1 result">
@@ -215,7 +215,7 @@
            Elevation="1"
            Variant="@DrawerVariant.Temporary">
     <MudDrawerHeader Class="d-flex justify-space-between align-center">
-        <MudText Typo="Typo.h6">参数列表</MudText>
+        <MudText Typo="Typo.h6" Class="cursor-default">参数列表</MudText>
         @if (_parameters.Any())
         {
             <MudButton Variant="Variant.Filled"
