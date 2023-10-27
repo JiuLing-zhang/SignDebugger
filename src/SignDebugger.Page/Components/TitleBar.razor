@@ -1,18 +1,16 @@
 ﻿﻿
 @inject IWindowTitleBar WindowTitleBar
 
-<div class="d-flex align-start @Class">
+<div class="title-bar d-flex align-start @Class">
 
     <MudIconButton Icon="@Icons.Material.Filled.Minimize"
-                   Size="Size.Small"
+                   Size="Size.Medium"
                    OnClick="MinimizeAsync" />
     <MudIconButton Icon=@(_maximizerIcon)
-                   Class="ml-2"
-                   Size="Size.Small"
+                   Size="Size.Medium"
                    OnClick="MaximizeAsync" />
     <MudIconButton Icon="@Icons.Material.Filled.Close"
-                   Class="ml-2"
-                   Size="Size.Small"
+                   Size="Size.Medium"
                    OnClick="CloseAsync" />
 </div>
 @code {
