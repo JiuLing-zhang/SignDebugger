@@ -16,8 +16,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="7.0.96" />
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.49-beta">
+		  <PrivateAssets>all</PrivateAssets>
+		</PackageReference>
 		<PackageReference Include="ModernWpfUI" Version="0.9.6" />
-		<PackageReference Include="PInvoke.User32" Version="0.7.124" />
 	</ItemGroup>
 
 	<ItemGroup>

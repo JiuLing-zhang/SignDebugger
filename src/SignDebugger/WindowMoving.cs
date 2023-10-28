@@ -2,6 +2,8 @@
 using System;
 using System.Windows;
 using System.Windows.Threading;
+using Windows.Win32;
+
 namespace SignDebugger;
 internal class WindowMoving : IWindowMoving
 {
@@ -22,18 +24,18 @@ internal class WindowMoving : IWindowMoving
             {
                 return;
             }
-            PInvoke.User32.GetCursorPos(out var point);
-            Application.Current.MainWindow.Left = _windowStartLeft - _mouseStartX + point.x;
-            Application.Current.MainWindow.Top = _windowStartTop - _mouseStartY + point.y;
+            PInvoke.GetCursorPos(out var point);
+            Application.Current.MainWindow.Left = _windowStartLeft - _mouseStartX + point.X;
+            Application.Current.MainWindow.Top = _windowStartTop - _mouseStartY + point.Y;
         };
         timer.Start();
     }
 
     public void MouseDown()
     {
-        PInvoke.User32.GetCursorPos(out var point);
-        _mouseStartX = point.x;
-        _mouseStartY = point.y;
+        PInvoke.GetCursorPos(out var point);
+        _mouseStartX = point.X;
+        _mouseStartY = point.Y;
         _windowStartLeft = Application.Current.MainWindow.Left;
         _windowStartTop = Application.Current.MainWindow.Top;
         _isMoving = true;
