@@ -2,12 +2,14 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net7.0-windows</TargetFramework>
+		<TargetFramework>net8.0-windows</TargetFramework>
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
 		<RootNamespace>SignDebugger</RootNamespace>
 		<ApplicationIcon>icon.ico</ApplicationIcon>
-		<Version>1.2.2</Version>
+		<Version>1.2.3</Version>
+		<PublishSingleFile>true</PublishSingleFile>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -15,9 +17,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="7.0.96" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.3" />
 		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.49-beta">
-		  <PrivateAssets>all</PrivateAssets>
+			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 		<PackageReference Include="ModernWpfUI" Version="0.9.6" />
 	</ItemGroup>

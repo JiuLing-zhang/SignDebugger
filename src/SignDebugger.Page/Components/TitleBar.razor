@@ -32,7 +32,7 @@
         return Task.CompletedTask;
     }
 
-    private async Task MaximizeAsync()
+    public async Task MaximizeAsync()
     {
         WindowTitleBar.Maximize();
         await SetMaximizerIconAsync();
@@ -43,7 +43,7 @@
         return Task.CompletedTask;
     }
 
-    private Task SetMaximizerIconAsync()
+    private async Task SetMaximizerIconAsync()
     {
         if (WindowTitleBar.IsMaximized)
         {
@@ -53,6 +53,6 @@
         {
             _maximizerIcon = Icons.Material.Filled.Fullscreen;
         }
-        return Task.CompletedTask;
+        await InvokeAsync(StateHasChanged);
     }
 }
