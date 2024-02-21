@@ -46,7 +46,7 @@
         await InvokeAsync(StateHasChanged);
 
         var app = JiuLing.AutoUpgrade.Shell.AutoUpgradeFactory.Create();
-        await app.UseHttpMode("http://api.jiuling.cc/app/check-update/d1te99378038a524cd95a4078886a1eb/windows")
+        await app.UseHttpMode("https://api.jiuling.cc/app/check-update/d1te99378038a524cd95a4078886a1eb/windows")
             .RunAsync();
         _isChecking = false;
         await InvokeAsync(StateHasChanged);

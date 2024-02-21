@@ -5,6 +5,11 @@
 @inject IDialogService DialogService
 
 <style>
+    body {
+        height: 100%;
+        user-select: none;
+    }
+
     .mud-appbar .mud-toolbar-gutters {
         padding-left: 10px;
         padding-right: 0px;
@@ -33,7 +38,7 @@
 
         <div class="d-flex align-center" @onmouseup:stopPropagation="true" @onmousedown:stopPropagation="true">
             <div class="app-icon"></div>
-            <MudText Typo="Typo.subtitle2" Class="ml-1 cursor-default">签名调试工具</MudText>
+            <MudText Typo="Typo.subtitle2" Class="ml-1 cursor-default">签名计算器</MudText>
         </div>
 
         <MudSpacer />
@@ -189,7 +194,7 @@
 
     private void OpenSettingsDialog()
     {
-        DialogService.Show<Settings>("签名调试工具", new DialogOptions() { NoHeader = true });
+        DialogService.Show<Settings>("签名计算器", new DialogOptions() { NoHeader = true });
     }
 
     private async Task DoubleClick()
