@@ -19,13 +19,13 @@ jobs:
           dotnet-version: 8.0.x
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore .\src\SignDebugger.sln
 
       - name: Build
-        run: dotnet build --no-restore -c release
+        run: dotnet build .\src\SignDebugger.sln --no-restore -c release
 
       - name: Publish
-        run: dotnet publish -c Release -r win-x64 -p:PublishReadyToRun=true --self-contained false
+        run: dotnet publish .\src\SignDebugger.sln -c Release -r win-x64 -p:PublishReadyToRun=true --self-contained false
 
       - name: Get version
         uses: olegtarasov/get-tag@v2.1
