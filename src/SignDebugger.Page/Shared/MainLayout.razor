@@ -43,7 +43,14 @@
 
         <MudSpacer />
 
-        <div class="d-flex" @onmouseup:stopPropagation="true" @onmousedown:stopPropagation="true">
+        <div class="d-flex align-center" @onmouseup:stopPropagation="true" @onmousedown:stopPropagation="true">
+            <MudChip Icon="@Icons.Material.Outlined.Lightbulb"
+                     Class="mr-4"
+                     Label="true"
+                     Size="Size.Small">
+                小提示：可使用 Ctrl + F 搜索
+            </MudChip>
+
             @if (_webSetting != null)
             {
                 @if (_webSetting.AppThemeInt == 0)
