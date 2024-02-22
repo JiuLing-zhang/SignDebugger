@@ -1,12 +1,12 @@
 ﻿using JiuLing.CommonLibs.Security;
 
 namespace SignDebugger.Page.CommandManage;
-internal class Base64Command : ICommand
+internal class Base64EncodingCommand : ICommand
 {
-    public string Title => "Base64";
+    public string Title => "Base64 编码";
     private string _text;
     private string _result = "";
-    public Base64Command(string text)
+    public Base64EncodingCommand(string text)
     {
         _text = text;
     }

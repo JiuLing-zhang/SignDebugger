@@ -320,7 +320,7 @@
 
     private async Task Base64EncodingAsync()
     {
-        await DoCommandAsync(new Base64Command(_signValue));
+        await DoCommandAsync(new Base64EncodingCommand(_signValue));
     }
 
     private async Task Base64DecodingAsync()
