@@ -103,8 +103,15 @@
                 <MudButton Variant="Variant.Text"
                            Color="Color.Primary"
                            Size="Size.Small"
-                           OnClick="Base64Async">
-                    Base64
+                           OnClick="Base64EncodingAsync">
+                    Base64 编码
+                </MudButton>
+
+                <MudButton Variant="Variant.Text"
+                           Color="Color.Primary"
+                           Size="Size.Small"
+                           OnClick="Base64DecodingAsync">
+                    Base64 解码
                 </MudButton>
 
                 <MudTooltip Text="整个字符串大写">
@@ -311,9 +318,14 @@
         await DoCommandAsync(new OrderByCommand(_signValue));
     }
 
-    private async Task Base64Async()
+    private async Task Base64EncodingAsync()
     {
         await DoCommandAsync(new Base64Command(_signValue));
+    }
+
+    private async Task Base64DecodingAsync()
+    {
+        await DoCommandAsync(new Base64DecodingCommand(_signValue));
     }
 
     private async Task PrefixAsync()
