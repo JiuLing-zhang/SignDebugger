@@ -30,6 +30,7 @@
 </style>
 
 <MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" Theme="_customTheme" />
+<MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
@@ -44,7 +45,8 @@
         <MudSpacer />
 
         <div class="d-flex align-center" @onmouseup:stopPropagation="true" @onmousedown:stopPropagation="true">
-            <MudChip Icon="@Icons.Material.Outlined.Lightbulb"
+            <MudChip T="string"
+                     Icon="@Icons.Material.Outlined.Lightbulb"
                      Class="mr-4"
                      Label="true"
                      Size="Size.Small">
@@ -118,7 +120,7 @@
         await base.OnInitializedAsync();
         _customTheme = new MudTheme()
             {
-                Palette = new PaletteLight()
+                PaletteLight = new PaletteLight()
                 {
                     Primary = "#6EA1EF",
                     Secondary = Colors.Green.Accent4,
