@@ -1,4 +1,6 @@
 ﻿@using System.Reflection
+@using JiuLing.AutoUpgrade.Shell
+@using JiuLing.AutoUpgrade.Shell.Creator
 @using JiuLing.CommonLibs.ExtensionMethods
 @using JiuLing.CommonLibs.Model
 
@@ -45,9 +47,8 @@
         _isChecking = true;
         await InvokeAsync(StateHasChanged);
 
-        var app = JiuLing.AutoUpgrade.Shell.AutoUpgradeFactory.Create();
-        await app.UseHttpMode("https://api.jiuling.cc/app/check-update/d1te99378038a524cd95a4078886a1eb/windows")
-            .RunAsync();
+        var app = UpgradeFactory.CreateHttpApp("https://api.jiuling.cc/app/check-update/d1te99378038a524cd95a4078886a1eb/windows");
+        await app.RunAsync();
         _isChecking = false;
         await InvokeAsync(StateHasChanged);
     }
