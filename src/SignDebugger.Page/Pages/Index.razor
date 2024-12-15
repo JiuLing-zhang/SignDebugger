@@ -52,7 +52,7 @@
         </MudPaper>
 
     </MudPaper>
-    <MudPaper Width="400px" MinWidth="400px" Class="flex-grow-0" Elevation="0">
+    <MudPaper Width="350px" MinWidth="350px" Class="flex-grow-0" Elevation="0">
         <MudPaper Class="mt-3 pt-1 pb-2" Elevation="2">
             <MudText Typo="Typo.subtitle2" Class="ml-2 tools-title">工具</MudText>
             <MudDivider Class="my-2" />
@@ -60,7 +60,6 @@
             <MudTooltip Text="编辑参数项">
                 <MudButton Variant="Variant.Text"
                            Color="Color.Primary"
-                           Size="Size.Small"
                            OnClick="OpenParametersEdit">
                     参数项
                 </MudButton>
@@ -68,7 +67,6 @@
             <MudTooltip Text="参数字典序排序">
                 <MudButton Variant="Variant.Text"
                            Color="Color.Primary"
-                           Size="Size.Small"
                            OnClick="OrderByAsync">
                     字典序
                 </MudButton>
@@ -77,7 +75,6 @@
             <MudTooltip Text="等号 %3d">
                 <MudButton Variant="Variant.Text"
                            Color="Color.Primary"
-                           Size="Size.Small"
                            OnClick="UrlEncodeLowerAsync">
                     Url 小写编码
                 </MudButton>
@@ -86,7 +83,6 @@
             <MudTooltip Text="等号 %3D">
                 <MudButton Variant="Variant.Text"
                            Color="Color.Primary"
-                           Size="Size.Small"
                            OnClick="UrlEncodeUpperAsync">
                     Url 大写编码
                 </MudButton>
@@ -95,7 +91,6 @@
             <MudTooltip Text="%3d/%3D -> 等号">
                 <MudButton Variant="Variant.Text"
                            Color="Color.Primary"
-                           Size="Size.Small"
                            OnClick="UrlDecodeAsync">
                     Url 解码
                 </MudButton>
@@ -103,14 +98,12 @@
 
             <MudButton Variant="Variant.Text"
                        Color="Color.Primary"
-                       Size="Size.Small"
                        OnClick="Base64EncodingAsync">
                 Base64 编码
             </MudButton>
 
             <MudButton Variant="Variant.Text"
                        Color="Color.Primary"
-                       Size="Size.Small"
                        OnClick="Base64DecodingAsync">
                 Base64 解码
             </MudButton>
@@ -118,7 +111,6 @@
             <MudTooltip Text="整个字符串大写">
                 <MudButton Variant="Variant.Text"
                            Color="Color.Primary"
-                           Size="Size.Small"
                            OnClick="ToUpperAsync">
                     转大写
                 </MudButton>
@@ -126,7 +118,6 @@
             <MudTooltip Text="整个字符串小写">
                 <MudButton Variant="Variant.Text"
                            Color="Color.Primary"
-                           Size="Size.Small"
                            OnClick="ToLowerAsync">
                     转小写
                 </MudButton>
@@ -135,7 +126,6 @@
             <MudTooltip Text="将 Json 类型的参数提取为表单格式">
                 <MudButton Variant="Variant.Text"
                            Color="Color.Primary"
-                           Size="Size.Small"
                            OnClick="JsonToFormAsync">
                     Json 提取
                 </MudButton>
@@ -150,8 +140,7 @@
                                   Class="mx-2 my-3"
                                   Immediate="true"
                                   Label="提取参数"
-                                  Variant="Variant.Text"
-                                  Margin="Margin.Dense">
+                                  Variant="Variant.Text">
                 <AdornmentStart>
                     连接符
                 </AdornmentStart>
@@ -159,7 +148,6 @@
                     <MudTooltip Text="@("连接字符串为空:param1=1&param2=2 -> param11param22;不为空:param1=1&param2=2 -> param11连接字符串param22")">
                         <MudButton Variant="Variant.Text"
                                    Color="Color.Primary"
-                                   Size="Size.Small"
                                    OnClick="FetchParameterNameAndValueAsync">
                             提取键值
                         </MudButton>
@@ -167,7 +155,6 @@
                     <MudTooltip Text="@("连接字符串为空:param1=1&param2=2 -> 12;不为空:param1=1&param2=2 -> 1连接字符串2")">
                         <MudButton Variant="Variant.Text"
                                    Color="Color.Primary"
-                                   Size="Size.Small"
                                    OnClick="FetchParameterValueAsync">
                             提取值
                         </MudButton>
@@ -179,14 +166,12 @@
                                   T="string"
                                   Class="mx-2 my-3"
                                   Immediate="true"
-                                  Variant="Variant.Text"
-                                  Margin="Margin.Dense">
+                                  Variant="Variant.Text">
                 <AdornmentStart>拼接</AdornmentStart>
                 <AdornmentEnd>
                     <MudTooltip Text="向现有字符串添加前缀">
                         <MudButton Variant="Variant.Text"
                                    Color="Color.Primary"
-                                   Size="Size.Small"
                                    OnClick="PrefixAsync">
                             加前缀
                         </MudButton>
@@ -194,7 +179,6 @@
                     <MudTooltip Text="向现有字符串添加后缀">
                         <MudButton Variant="Variant.Text"
                                    Color="Color.Primary"
-                                   Size="Size.Small"
                                    OnClick="PostfixAsync">
                             加后缀
                         </MudButton>
@@ -208,19 +192,16 @@
             <MudDivider Class="my-2" />
             <MudButton Variant="Variant.Text"
                        Color="Color.Primary"
-                       Size="Size.Small"
                        OnClick="MD5Async">
                 MD5
             </MudButton>
             <MudButton Variant="Variant.Text"
                        Color="Color.Primary"
-                       Size="Size.Small"
                        OnClick="SHA1Async">
                 SHA1
             </MudButton>
             <MudButton Variant="Variant.Text"
                        Color="Color.Primary"
-                       Size="Size.Small"
                        OnClick="SHA256Async">
                 SHA256
             </MudButton>
