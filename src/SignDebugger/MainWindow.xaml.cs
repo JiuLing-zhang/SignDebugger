@@ -2,6 +2,7 @@
 using MudBlazor;
 using MudBlazor.Services;
 using System.Windows;
+using MudExtensions.Services;
 using SignDebugger.Page;
 
 namespace SignDebugger
@@ -28,6 +29,7 @@ namespace SignDebugger
                 config.SnackbarConfiguration.ShowTransitionDuration = 200;
                 config.SnackbarConfiguration.HideTransitionDuration = 400;
             });
+            serviceCollection.AddMudExtensions();
             Resources.Add("services", serviceCollection.BuildServiceProvider());
         }
     }

@@ -53,166 +53,179 @@
 
     </MudPaper>
     <MudPaper Width="400px" MinWidth="400px" Class="flex-grow-0" Elevation="0">
-        <MudExpansionPanels MultiExpansion="true">
-            <MudExpansionPanel Text="工具" IsInitiallyExpanded="true">
+        <MudPaper Class="mt-3 pt-1 pb-2" Elevation="2">
+            <MudText Typo="Typo.subtitle2" Class="ml-2 tools-title">工具</MudText>
+            <MudDivider Class="my-2" />
 
-                <MudTooltip Text="编辑参数项">
-                    <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Size="Size.Small"
-                               OnClick="OpenParametersEdit">
-                        参数项
-                    </MudButton>
-                </MudTooltip>
-                <MudTooltip Text="参数字典序排序">
-                    <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Size="Size.Small"
-                               OnClick="OrderByAsync">
-                        字典序
-                    </MudButton>
-                </MudTooltip>
-
-                <MudTooltip Text="等号 %3d">
-                    <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Size="Size.Small"
-                               OnClick="UrlEncodeLowerAsync">
-                        Url 小写编码
-                    </MudButton>
-                </MudTooltip>
-
-                <MudTooltip Text="等号 %3D">
-                    <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Size="Size.Small"
-                               OnClick="UrlEncodeUpperAsync">
-                        Url 大写编码
-                    </MudButton>
-                </MudTooltip>
-
-                <MudTooltip Text="%3d/%3D -> 等号">
-                    <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Size="Size.Small"
-                               OnClick="UrlDecodeAsync">
-                        Url 解码
-                    </MudButton>
-                </MudTooltip>
-
+            <MudTooltip Text="编辑参数项">
                 <MudButton Variant="Variant.Text"
                            Color="Color.Primary"
                            Size="Size.Small"
-                           OnClick="Base64EncodingAsync">
-                    Base64 编码
+                           OnClick="OpenParametersEdit">
+                    参数项
                 </MudButton>
-
+            </MudTooltip>
+            <MudTooltip Text="参数字典序排序">
                 <MudButton Variant="Variant.Text"
                            Color="Color.Primary"
                            Size="Size.Small"
-                           OnClick="Base64DecodingAsync">
-                    Base64 解码
+                           OnClick="OrderByAsync">
+                    字典序
                 </MudButton>
+            </MudTooltip>
 
-                <MudTooltip Text="整个字符串大写">
-                    <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Size="Size.Small"
-                               OnClick="ToUpperAsync">
-                        转大写
-                    </MudButton>
-                </MudTooltip>
-                <MudTooltip Text="整个字符串小写">
-                    <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Size="Size.Small"
-                               OnClick="ToLowerAsync">
-                        转小写
-                    </MudButton>
-                </MudTooltip>
-
-                <MudTooltip Text="将 Json 类型的参数提取为表单格式">
-                    <MudButton Variant="Variant.Text"
-                               Color="Color.Primary"
-                               Size="Size.Small"
-                               OnClick="JsonToFormAsync">
-                        Json 提取
-                    </MudButton>
-                </MudTooltip>
-
-            </MudExpansionPanel>
-            <MudExpansionPanel Text="提取参数" IsInitiallyExpanded="true">
-                <div class="d-flex justify-space-between align-end">
-                    <MudTextField @bind-Value="_separator"
-                                  Label="请输入连接字符"
-                                  Variant="Variant.Text"></MudTextField>
-
-                    <div>
-                        <MudTooltip Text="@("连接字符串为空:param1=1&param2=2 -> param11param22;不为空:param1=1&param2=2 -> param11连接字符串param22")">
-                            <MudButton Variant="Variant.Text"
-                                       Color="Color.Primary"
-                                       Size="Size.Small"
-                                       OnClick="FetchParameterNameAndValueAsync">
-                                参数键值
-                            </MudButton>
-                        </MudTooltip>
-                        <MudTooltip Text="@("连接字符串为空:param1=1&param2=2 -> 12;不为空:param1=1&param2=2 -> 1连接字符串2")">
-                            <MudButton Variant="Variant.Text"
-                                       Color="Color.Primary"
-                                       Size="Size.Small"
-                                       OnClick="FetchParameterValueAsync">
-                                参数值
-                            </MudButton>
-                        </MudTooltip>
-                    </div>
-                </div>
-            </MudExpansionPanel>
-            <MudExpansionPanel Text="拼接字符串" IsInitiallyExpanded="true">
-                <div class="d-flex justify-space-between align-end">
-                    <MudTextField @bind-Value="_fixString"
-                                  Label="请输入字符串"
-                                  Variant="Variant.Text"></MudTextField>
-                    <div>
-                        <MudTooltip Text="向现有字符串添加前缀">
-                            <MudButton Variant="Variant.Text"
-                                       Color="Color.Primary"
-                                       Size="Size.Small"
-                                       OnClick="PrefixAsync">
-                                加前缀
-                            </MudButton>
-                        </MudTooltip>
-                        <MudTooltip Text="向现有字符串添加后缀">
-                            <MudButton Variant="Variant.Text"
-                                       Color="Color.Primary"
-                                       Size="Size.Small"
-                                       OnClick="PostfixAsync">
-                                加后缀
-                            </MudButton>
-                        </MudTooltip>
-                    </div>
-                </div>
-            </MudExpansionPanel>
-            <MudExpansionPanel Text="哈希" IsInitiallyExpanded="true">
+            <MudTooltip Text="等号 %3d">
                 <MudButton Variant="Variant.Text"
                            Color="Color.Primary"
                            Size="Size.Small"
-                           OnClick="MD5Async">
-                    MD5
+                           OnClick="UrlEncodeLowerAsync">
+                    Url 小写编码
                 </MudButton>
+            </MudTooltip>
+
+            <MudTooltip Text="等号 %3D">
                 <MudButton Variant="Variant.Text"
                            Color="Color.Primary"
                            Size="Size.Small"
-                           OnClick="SHA1Async">
-                    SHA1
+                           OnClick="UrlEncodeUpperAsync">
+                    Url 大写编码
                 </MudButton>
+            </MudTooltip>
+
+            <MudTooltip Text="%3d/%3D -> 等号">
                 <MudButton Variant="Variant.Text"
                            Color="Color.Primary"
                            Size="Size.Small"
-                           OnClick="SHA256Async">
-                    SHA256
+                           OnClick="UrlDecodeAsync">
+                    Url 解码
                 </MudButton>
-            </MudExpansionPanel>
-        </MudExpansionPanels>
+            </MudTooltip>
+
+            <MudButton Variant="Variant.Text"
+                       Color="Color.Primary"
+                       Size="Size.Small"
+                       OnClick="Base64EncodingAsync">
+                Base64 编码
+            </MudButton>
+
+            <MudButton Variant="Variant.Text"
+                       Color="Color.Primary"
+                       Size="Size.Small"
+                       OnClick="Base64DecodingAsync">
+                Base64 解码
+            </MudButton>
+
+            <MudTooltip Text="整个字符串大写">
+                <MudButton Variant="Variant.Text"
+                           Color="Color.Primary"
+                           Size="Size.Small"
+                           OnClick="ToUpperAsync">
+                    转大写
+                </MudButton>
+            </MudTooltip>
+            <MudTooltip Text="整个字符串小写">
+                <MudButton Variant="Variant.Text"
+                           Color="Color.Primary"
+                           Size="Size.Small"
+                           OnClick="ToLowerAsync">
+                    转小写
+                </MudButton>
+            </MudTooltip>
+
+            <MudTooltip Text="将 Json 类型的参数提取为表单格式">
+                <MudButton Variant="Variant.Text"
+                           Color="Color.Primary"
+                           Size="Size.Small"
+                           OnClick="JsonToFormAsync">
+                    Json 提取
+                </MudButton>
+            </MudTooltip>
+        </MudPaper>
+
+        <MudPaper Class="my-4 py-2" Elevation="2">
+            <MudText Typo="Typo.subtitle2" Class="ml-2 tools-title">构建</MudText>
+            <MudDivider Class="my-2" />
+            <MudTextFieldExtended @bind-Value="_separator"
+                                  T="string"
+                                  Class="mx-2 my-3"
+                                  Immediate="true"
+                                  Label="提取参数"
+                                  Variant="Variant.Text"
+                                  Margin="Margin.Dense">
+                <AdornmentStart>
+                    连接符
+                </AdornmentStart>
+                <AdornmentEnd>
+                    <MudTooltip Text="@("连接字符串为空:param1=1&param2=2 -> param11param22;不为空:param1=1&param2=2 -> param11连接字符串param22")">
+                        <MudButton Variant="Variant.Text"
+                                   Color="Color.Primary"
+                                   Size="Size.Small"
+                                   OnClick="FetchParameterNameAndValueAsync">
+                            提取键值
+                        </MudButton>
+                    </MudTooltip>
+                    <MudTooltip Text="@("连接字符串为空:param1=1&param2=2 -> 12;不为空:param1=1&param2=2 -> 1连接字符串2")">
+                        <MudButton Variant="Variant.Text"
+                                   Color="Color.Primary"
+                                   Size="Size.Small"
+                                   OnClick="FetchParameterValueAsync">
+                            提取值
+                        </MudButton>
+                    </MudTooltip>
+                </AdornmentEnd>
+            </MudTextFieldExtended>
+
+            <MudTextFieldExtended @bind-Value="_fixString"
+                                  T="string"
+                                  Class="mx-2 my-3"
+                                  Immediate="true"
+                                  Variant="Variant.Text"
+                                  Margin="Margin.Dense">
+                <AdornmentStart>拼接</AdornmentStart>
+                <AdornmentEnd>
+                    <MudTooltip Text="向现有字符串添加前缀">
+                        <MudButton Variant="Variant.Text"
+                                   Color="Color.Primary"
+                                   Size="Size.Small"
+                                   OnClick="PrefixAsync">
+                            加前缀
+                        </MudButton>
+                    </MudTooltip>
+                    <MudTooltip Text="向现有字符串添加后缀">
+                        <MudButton Variant="Variant.Text"
+                                   Color="Color.Primary"
+                                   Size="Size.Small"
+                                   OnClick="PostfixAsync">
+                            加后缀
+                        </MudButton>
+                    </MudTooltip>
+                </AdornmentEnd>
+            </MudTextFieldExtended>
+        </MudPaper>
+
+        <MudPaper Class="my-4 py-2" Elevation="2">
+            <MudText Typo="Typo.subtitle2" Class="ml-2 tools-title">哈希</MudText>
+            <MudDivider Class="my-2" />
+            <MudButton Variant="Variant.Text"
+                       Color="Color.Primary"
+                       Size="Size.Small"
+                       OnClick="MD5Async">
+                MD5
+            </MudButton>
+            <MudButton Variant="Variant.Text"
+                       Color="Color.Primary"
+                       Size="Size.Small"
+                       OnClick="SHA1Async">
+                SHA1
+            </MudButton>
+            <MudButton Variant="Variant.Text"
+                       Color="Color.Primary"
+                       Size="Size.Small"
+                       OnClick="SHA256Async">
+                SHA256
+            </MudButton>
+        </MudPaper>
+
     </MudPaper>
 </div>
 
@@ -222,7 +235,7 @@
            Elevation="1"
            Variant="@DrawerVariant.Temporary">
     <MudDrawerHeader Class="d-flex justify-space-between align-center">
-        <MudText Typo="Typo.h6" Class="cursor-default">参数列表</MudText>
+        <MudText Typo="Typo.subtitle2" Class="cursor-default">参数列表</MudText>
         @if (_parameters.Any())
         {
             <MudButton Variant="Variant.Filled"
